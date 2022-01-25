@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-card
+      author: william
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: first_name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: last_name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: pan
+                  type: VARCHAR(16)
+              - column:
+                  name: expiry_date
+                  type: datetime
+              - column:
+                  name: cvc2
+                  type: VARCHAR(3)
+              - column:
+                  name: created_timestamp
+                  type: datetime
+            tableName: card
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: card_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: card_state
+                  type: VARCHAR(10)
+              - column:
+                  name: created_timestamp
+                  type: datetime
+            tableName: card_state_event

@@ -1,0 +1,242 @@
+swagger: '2.0'
+info:
+  version: 'V3.0.4'
+  title: Card Service
+  description: ''
+tags:
+  - name: Card service api
+paths:
+  /api/v1/cards:
+    post:
+      tags:
+        - Card service api
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: CardCreationRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/NewCardRequest'
+      responses:
+        '200':
+          description: 'Success Response'
+          schema:
+            $ref: '#/definitions/NewCardResponse'
+        '400':
+          description: 'Client Error'
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: 'Server Error'
+          schema:
+            $ref: '#/definitions/Error'
+
+  /api/v1/cards/{cardId}:
+    get:
+      parameters:
+        - name: cardId
+          in: path
+          type: string
+          format: uuid
+          required: true
+          description: 'cardId'
+
+      tags:
+        - Card service api
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 'Success Response'
+          schema:
+            $ref: '#/definitions/CardResponse'
+        '400':
+          description: 'Client Error'
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: 'Server Error'
+          schema:
+            $ref: '#/definitions/Error'
+
+  /api/v1/cards/{cardId}/states:
+    put:
+      parameters:
+        - name: cardId
+          in: path
+          type: string
+          format: uuid
+          required: true
+          description: 'cardId'
+        - name: CardStateRequest
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CardStateRequest'
+      tags:
+        - Card service api
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 'Success Response'
+          schema:
+            $ref: '#/definitions/CardStateResponse'
+        '400':
+          description: 'Client Error'
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: 'Server Error'
+          schema:
+            $ref: '#/definitions/Error'
+
+  /api/v1/cards/reissue:
+    post:
+      parameters:
+        - name: cardId
+          in: path
+          type: string
+          format: uuid
+          required: true
+          description: 'cardId'
+      tags:
+        - Card service api
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 'Success Response'
+          schema:
+            $ref: '#/definitions/ReissueCardResponse'
+        '400':
+          description: 'Client Error'
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: 'Server Error'
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  NewCardRequest:
+    title: NewCardRequest
+    type: object
+    properties:
+      userId:
+        type: string
+        format: uuid
+      firstName:
+        type: string
+      lastName:
+        type: string
+      pan:
+        type: string
+      expiryDate:
+        type: string
+        format: date
+      cvc2:
+        type: string
+
+    required:
+      - userId
+      - firstName
+      - lastName
+      - pan
+      - expiryDate
+      - cvc2
+  CardResponse:
+    title: CardResponse
+    type: object
+    properties:
+      cardId:
+        type: string
+        format: uuid
+      userId:
+        type: string
+        format: uuid
+      firstName:
+        type: string
+      lastName:
+        type: string
+      pan:
+        type: string
+      expiryDate:
+        type: string
+        format: date
+      cvc2:
+        type: string
+      createdDateTime:
+        type: string
+        format: date-time
+      cardState:
+        $ref: '#/definitions/CardState'
+
+  CardStateRequest:
+    title: CardStateRequest
+    properties:
+      cardState:
+        $ref: '#/definitions/CardState'
+  CardStateResponse:
+    title: CardStateResponse
+    properties:
+      cardState:
+        $ref: '#/definitions/CardState'
+  CardState:
+    title: CardState
+    type: string
+    enum:
+      - ACTIVE
+      - LOCKED
+      - CLOSED
+  ReissueCardResponse:
+    title: ReissueCardResponse
+    type: object
+    properties:
+      cardId:
+        type: string
+        format: uuid
+
+  ReissueCardRequest:
+    title: ReissueCardRequest
+    type: object
+    properties:
+      userId:
+        type: string
+        format: uuid
+      firstName:
+        type: string
+      lastName:
+        type: string
+      pan:
+        type: string
+      expiryDate:
+        type: string
+        format: date
+      cvc2:
+        type: string
+  NewCardResponse:
+    title: NewCardResponse
+    type: object
+    properties:
+      cardId:
+        type: string
+        format: uuid
+  Error:
+    title: Error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      info:
+        type: string
