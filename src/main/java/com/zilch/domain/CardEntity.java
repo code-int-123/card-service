@@ -26,26 +26,26 @@ public class CardEntity {
     @Id
     private UUID id;
 
-    @Column(name="USER_ID")
+    @Column(name="USER_ID",updatable = false,nullable = false)
     private UUID userId;
 
-    @Column(name="FIRST_NAME")
+    @Column(name="FIRST_NAME",updatable = false,nullable = false)
     private String firstName;
 
-    @Column(name="LAST_NAME")
+    @Column(name="LAST_NAME",updatable = false,nullable = false)
     private String lastName;
 
-    @Column(name="PAN")
+    @Column(name="PAN",updatable = false,nullable = false)
     private String pan;
 
-    @Column(name="EXPIRY_DATE")
+    @Column(name="EXPIRY_DATE",updatable = false,nullable = false)
     private LocalDate expiryDate;
 
-    @Column(name="cvc2")
+    @Column(name="cvc2",updatable = false,nullable = false)
     private String cvc2;
 
 
-    @Column(name="created_timestamp")
+    @Column(name="created_timestamp",updatable = false,nullable = false)
     private OffsetDateTime createdTimestamp;
 
     @OneToMany(mappedBy = "cardEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

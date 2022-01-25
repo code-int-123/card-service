@@ -19,13 +19,13 @@ public class CardStateEventEntity {
     @Id
     private UUID id;
 
-    @Column(name="CARD_ID")
+    @Column(name="CARD_ID",updatable = false,nullable = false)
     private UUID cardId;
 
     @Enumerated(EnumType.STRING)
     private CardState cardState;
 
-    @Column(name="created_timestamp")
+    @Column(name="created_timestamp",updatable = false,nullable = false)
     private OffsetDateTime createdTimestamp;
 
     @ManyToOne()

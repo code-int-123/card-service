@@ -29,6 +29,7 @@ public class CardController {
     @PostMapping(value = "/cards",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NewCardResponse> createCard(@Valid @NotNull @RequestBody NewCardRequest request){
         log.info("Received request to create new card  userId={}",request.getUserId());
+
         UUID cardId = cardService.createCard(CardEntity.from(request));
 
         return ResponseEntity.ok(new NewCardResponse().cardId(cardId));
@@ -36,6 +37,7 @@ public class CardController {
 
     @GetMapping(value = "/cards/{cardId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CardResponse> getCardDetail(@PathVariable("cardId") final UUID cardId){
+        log.info("Received request to get card detail  cardId={}",cardId);
 
         CardResponse cardResponse = cardService.getCardDetails(cardId).map(this::from).orElseGet(CardResponse::new);
 
@@ -44,6 +46,8 @@ public class CardController {
 
     @PutMapping(value="/cards/{cardId}/states",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CardStateResponse> updateCardState(@PathVariable("cardId") final UUID cardId, @Valid @NotNull @RequestBody CardStateRequest request){
+
+        log.info("Received request to change card state cardId={}, CardStateRequest={}",cardId,request);
 
         CardStateResponse cardStateResponse = cardService.changeCardState(cardId, CardState.valueOf(request.getCardState().name()))
                 .map(state -> com.zilch.generated.api.model.CardState.fromValue(state.name()))
@@ -54,6 +58,9 @@ public class CardController {
     }
     @PostMapping(value="/cards/{cardId}/reissue",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReissueCardResponse> reissueCard(@PathVariable("cardId") final UUID cardId,@Valid @NotNull @RequestBody ReissueCardRequest request){
+
+        log.info("Received request to reissue card cardId={}, ReissueCardRequest={}",cardId,request);
+
         ReissueCardResponse reissueCardResponse = cardService.reissueCard(CardEntity.from(request)).map(id -> new ReissueCardResponse().cardId(id))
                 .orElseGet(ReissueCardResponse::new);
 
