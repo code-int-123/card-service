@@ -17,7 +17,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(value= Transactional.TxType.REQUIRED)
+@Transactional(value= Transactional.TxType.REQUIRES_NEW)
 @Slf4j
 public class CardService {
 
