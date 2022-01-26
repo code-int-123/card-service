@@ -1,7 +1,6 @@
 package com.zilch;
 
-import com.zilch.generated.api.model.NewCardRequest;
-import com.zilch.generated.api.model.NewCardResponse;
+import com.zilch.generated.api.model.*;
 import com.zilch.repository.CardEntityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,8 +16,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.UUID;
 
-import static com.zilch.TestUtil.NEW_CARD_ID;
-import static com.zilch.TestUtil.getNewCardRequest;
+import static com.zilch.TestUtil.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(
@@ -77,5 +75,77 @@ class CardServiceE2ETests {
 				.expectBody(NewCardResponse.class)
 				.value(response->assertThat(response.getCardId()).isEqualTo(cardId));
 	}
+	@Test
+	@DisplayName("Test change card state multiple times")
+	void testChangeCardStateMultipleTimes(){
+		NewCardRequest newCardRequest = getNewCardRequest();
+		UUID cardId = webTestClient.post()
+				.uri("/api/v1/cards")
+				.bodyValue(newCardRequest)
+				.exchange()
+				.expectStatus()
+				.isEqualTo(HttpStatus.OK)
+				.expectBody(NewCardResponse.class)
+				.returnResult().getResponseBody().getCardId();
+
+		changeCardStatus(CardState.LOCKED,cardId);
+		changeCardStatus(CardState.CLOSED,cardId);
+		assertThat(getCardDetail(cardId).getCardState().name()).isEqualTo(CardState.CLOSED.name());
+
+	}
+
+	@Test
+	@DisplayName("Reissue Card once success")
+	void testReissueCardOnceSuccess(){
+		NewCardRequest newCardRequest = getNewCardRequest();
+		UUID cardId = webTestClient.post()
+				.uri("/api/v1/cards")
+				.bodyValue(newCardRequest)
+				.exchange()
+				.expectStatus()
+				.isEqualTo(HttpStatus.OK)
+				.expectBody(NewCardResponse.class)
+				.returnResult().getResponseBody().getCardId();
+		ReissueCardResponse reissueCardResponse = reissueCard(cardId,newCardRequest.getUserId());
+		CardResponse cardDetail = getCardDetail(reissueCardResponse.getCardId());
+		assertThat(cardDetail.getCardState().name()).isEqualTo(CardState.ACTIVE.name());
+		CardResponse cardDetailOld = getCardDetail(cardId);
+		assertThat(cardDetailOld.getCardState().name()).isEqualTo(CardState.CLOSED.name());
+	}
+
+	private void changeCardStatus(com.zilch.generated.api.model.CardState cardState,UUID cardId){
+		webTestClient.put()
+				.uri("/api/v1/cards/{cardId}/states".replace("{cardId}",cardId.toString()))
+				.bodyValue(new CardStateRequest().cardState(cardState))
+				.exchange()
+				.expectStatus()
+				.isEqualTo(HttpStatus.OK)
+				.expectBody(CardStateResponse.class)
+				.value(response->assertThat(response.getCardState().name()).isEqualTo(cardState.name()));
+	}
+
+	private CardResponse getCardDetail(UUID cardId){
+		return webTestClient.get()
+				.uri("/api/v1/cards/{cardId}".replace("{cardId}",cardId.toString()))
+				.exchange()
+				.expectStatus()
+				.isEqualTo(HttpStatus.OK)
+				.expectBody(CardResponse.class)
+				.returnResult().getResponseBody();
+	}
+
+	private ReissueCardResponse reissueCard(UUID cardId,UUID userId){
+		return webTestClient.post()
+				.uri("/api/v1/cards/{cardId}/reissue".replace("{cardId}",cardId.toString()))
+				.bodyValue(getReissueCardRequest(userId))
+				.exchange()
+				.expectStatus()
+				.isEqualTo(HttpStatus.OK)
+				.expectBody(ReissueCardResponse.class)
+				.returnResult().getResponseBody();
+	}
+
+
+
 
 }

@@ -21,12 +21,22 @@ public class TestUtil {
         return List.of(getCardEntity(OffsetDateTime.now(),NEW_CARD_ID),getCardEntity(OffsetDateTime.now().minusDays(2),UUID.randomUUID()));
     }
 
+    public static ReissueCardRequest getReissueCardRequest(UUID userId){
+        return new ReissueCardRequest()
+                .userId(userId)
+                .firstName("TestFirstName")
+                .lastName("TestLastName")
+                .pan("1234567")
+                .expiryDate(LocalDate.now())
+                .cvc2("124");
+    }
+
     public static ReissueCardRequest getReissueCardRequest(){
         return new ReissueCardRequest()
                 .userId(UUID.randomUUID())
                 .firstName("TestFirstName")
                 .lastName("TestLastName")
-                .pan("12345")
+                .pan("1234567")
                 .expiryDate(LocalDate.now())
                 .cvc2("124");
     }
