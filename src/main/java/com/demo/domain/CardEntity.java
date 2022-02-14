@@ -1,17 +1,14 @@
-package com.zilch.domain;
+package com.demo.domain;
 
-import com.zilch.generated.api.model.CardResponse;
-import com.zilch.generated.api.model.NewCardRequest;
-import com.zilch.generated.api.model.ReissueCardRequest;
+import com.demo.generated.api.model.NewCardRequest;
+import com.demo.generated.api.model.ReissueCardRequest;
 import lombok.*;
-import lombok.experimental.Wither;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @With

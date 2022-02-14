@@ -1,13 +1,12 @@
-package com.zilch.controller;
+package com.demo.controller;
 
-import com.zilch.domain.CardEntity;
-import com.zilch.domain.CardState;
-import com.zilch.domain.CardStateEventEntity;
-import com.zilch.generated.api.model.*;
-import com.zilch.service.CardService;
+import com.demo.domain.CardEntity;
+import com.demo.domain.CardState;
+import com.demo.domain.CardStateEventEntity;
+import com.demo.generated.api.model.*;
+import com.demo.service.CardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,13 +43,13 @@ public class CardController {
         return ResponseEntity.ok(cardResponse);
     }
 
-    @PutMapping(value="/cards/{cardId}/states",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value="/cards/{cardId}/states",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CardStateResponse> updateCardState(@PathVariable("cardId") final UUID cardId, @Valid @NotNull @RequestBody CardStateRequest request){
 
         log.info("Received request to change card state cardId={}, CardStateRequest={}",cardId,request);
 
         CardStateResponse cardStateResponse = cardService.changeCardState(cardId, CardState.valueOf(request.getCardState().name()))
-                .map(state -> com.zilch.generated.api.model.CardState.fromValue(state.name()))
+                .map(state -> com.demo.generated.api.model.CardState.fromValue(state.name()))
                 .map(state -> new CardStateResponse().cardState(state))
                 .orElseGet(CardStateResponse::new);
         return ResponseEntity.ok(cardStateResponse);
@@ -74,7 +73,7 @@ public class CardController {
                 .expiryDate(cardEntity.getExpiryDate())
                 .firstName(cardEntity.getFirstName())
                 .lastName(cardEntity.getLastName())
-                .cardState(com.zilch.generated.api.model.CardState.fromValue(getLatestState(cardEntity.getCardStateEventEntities()).toString()))
+                .cardState(com.demo.generated.api.model.CardState.fromValue(getLatestState(cardEntity.getCardStateEventEntities()).toString()))
                 .createdDateTime(cardEntity.getCreatedTimestamp())
                 .pan(cardEntity.getPan())
                .userId(cardEntity.getUserId());

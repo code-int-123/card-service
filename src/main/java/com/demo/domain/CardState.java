@@ -1,4 +1,4 @@
-package com.zilch.domain;
+package com.demo.domain;
 
 public enum CardState {
     ACTIVE,LOCKED,CLOSED;

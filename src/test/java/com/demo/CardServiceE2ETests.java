@@ -1,7 +1,7 @@
-package com.zilch;
+package com.demo;
 
-import com.zilch.generated.api.model.*;
-import com.zilch.repository.CardEntityRepository;
+import com.demo.generated.api.model.*;
+import com.demo.repository.CardEntityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,14 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.UUID;
 
-import static com.zilch.TestUtil.*;
+import static com.demo.TestUtil.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(
@@ -113,8 +112,8 @@ class CardServiceE2ETests {
 		assertThat(cardDetailOld.getCardState().name()).isEqualTo(CardState.CLOSED.name());
 	}
 
-	private void changeCardStatus(com.zilch.generated.api.model.CardState cardState,UUID cardId){
-		webTestClient.put()
+	private void changeCardStatus(com.demo.generated.api.model.CardState cardState, UUID cardId){
+		webTestClient.patch()
 				.uri("/api/v1/cards/{cardId}/states".replace("{cardId}",cardId.toString()))
 				.bodyValue(new CardStateRequest().cardState(cardState))
 				.exchange()

@@ -1,6 +1,6 @@
-package com.zilch;
+package com.demo;
 
-import com.zilch.domain.CardEntity;
+import com.demo.domain.CardEntity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

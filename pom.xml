@@ -130,11 +130,11 @@
 			<execution>
 				<configuration>
 					<configOptions>
-						<apiPackage>com.zilch.generated.api</apiPackage>
+						<apiPackage>com.demo.generated.api</apiPackage>
 						<dateLibrary>java8</dateLibrary>
 						<java8>true</java8>
 						<library>webclient</library>
-						<modelPackage>com.zilch.generated.api.model
+						<modelPackage>com.demo.generated.api.model
 						</modelPackage>
 						<performBeanValidation>true</performBeanValidation>
 						<useBeanValidation>true</useBeanValidation>

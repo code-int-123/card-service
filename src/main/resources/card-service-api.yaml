@@ -65,7 +65,7 @@ paths:
             $ref: '#/definitions/Error'
 
   /api/v1/cards/{cardId}/states:
-    put:
+    patch:
       parameters:
         - name: cardId
           in: path

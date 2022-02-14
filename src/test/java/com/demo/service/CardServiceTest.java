@@ -1,15 +1,12 @@
-package com.zilch.service;
+package com.demo.service;
 
-import com.zilch.domain.CardEntity;
-import com.zilch.domain.CardState;
-import com.zilch.repository.CardEntityRepository;
-import com.zilch.repository.CardStateEventRepository;
-import liquibase.pro.packaged.C;
+import com.demo.domain.CardEntity;
+import com.demo.domain.CardState;
+import com.demo.repository.CardEntityRepository;
+import com.demo.repository.CardStateEventRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -17,13 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.zilch.TestUtil.*;
+import static com.demo.TestUtil.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class CardServiceTest {

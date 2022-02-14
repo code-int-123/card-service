@@ -1,15 +1,14 @@
-package com.zilch;
+package com.demo;
 
-import com.zilch.domain.CardEntity;
-import com.zilch.domain.CardState;
-import com.zilch.domain.CardStateEventEntity;
-import com.zilch.generated.api.model.NewCardRequest;
-import com.zilch.generated.api.model.ReissueCardRequest;
+import com.demo.domain.CardEntity;
+import com.demo.domain.CardState;
+import com.demo.domain.CardStateEventEntity;
+import com.demo.generated.api.model.NewCardRequest;
+import com.demo.generated.api.model.ReissueCardRequest;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 

@@ -1,13 +1,12 @@
-package com.zilch.controller;
+package com.demo.controller;
 
-import com.zilch.domain.CardEntity;
-import com.zilch.domain.CardState;
-import com.zilch.generated.api.model.*;
-import com.zilch.generated.api.model.Error;
-import com.zilch.service.CardService;
+import com.demo.domain.CardEntity;
+import com.demo.domain.CardState;
+import com.demo.generated.api.model.*;
+import com.demo.generated.api.model.Error;
+import com.demo.service.CardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,9 +20,8 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.zilch.TestUtil.*;
+import static com.demo.TestUtil.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -110,9 +108,9 @@ class CardControllerTest {
    @Test
     void changeCardStateSuccess(){
         when(cardService.changeCardState(any(),any())).thenReturn(Optional.of(CardState.ACTIVE));
-       webTestClient.put()
+       webTestClient.patch()
                .uri("/api/v1/cards/{cardId}/states".replace("{cardId}",NEW_CARD_ID.toString()))
-               .bodyValue(new CardStateRequest().cardState(com.zilch.generated.api.model.CardState.ACTIVE))
+               .bodyValue(new CardStateRequest().cardState(com.demo.generated.api.model.CardState.ACTIVE))
                .exchange()
                .expectStatus()
                .isEqualTo(HttpStatus.OK)
@@ -123,9 +121,9 @@ class CardControllerTest {
     @Test
     void changeCardStateFailed(){
         when(cardService.changeCardState(any(),any())).thenThrow(new IllegalStateException("Error"));
-        webTestClient.put()
+        webTestClient.patch()
                 .uri("/api/v1/cards/{cardId}/states".replace("{cardId}",NEW_CARD_ID.toString()))
-                .bodyValue(new CardStateRequest().cardState(com.zilch.generated.api.model.CardState.ACTIVE))
+                .bodyValue(new CardStateRequest().cardState(com.demo.generated.api.model.CardState.ACTIVE))
                 .exchange()
                 .expectStatus()
                 .isEqualTo(HttpStatus.BAD_REQUEST)

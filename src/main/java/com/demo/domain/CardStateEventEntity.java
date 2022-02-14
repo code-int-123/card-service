@@ -1,4 +1,4 @@
-package com.zilch.domain;
+package com.demo.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

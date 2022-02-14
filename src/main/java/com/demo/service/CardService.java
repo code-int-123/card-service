@@ -1,11 +1,10 @@
-package com.zilch.service;
+package com.demo.service;
 
-import com.zilch.domain.CardEntity;
-import com.zilch.domain.CardState;
-import com.zilch.domain.CardStateEventEntity;
-import com.zilch.generated.api.model.CardResponse;
-import com.zilch.repository.CardEntityRepository;
-import com.zilch.repository.CardStateEventRepository;
+import com.demo.domain.CardEntity;
+import com.demo.domain.CardState;
+import com.demo.domain.CardStateEventEntity;
+import com.demo.repository.CardEntityRepository;
+import com.demo.repository.CardStateEventRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

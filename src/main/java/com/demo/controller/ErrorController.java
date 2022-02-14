@@ -1,6 +1,6 @@
-package com.zilch.controller;
+package com.demo.controller;
 
-import com.zilch.generated.api.model.Error;
+import com.demo.generated.api.model.Error;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
